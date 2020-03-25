@@ -14,12 +14,12 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>base-parent</module>
         <module>register-center</module>
         <module>limit-hystrix</module>
         <module>limit-sentinel</module>
         <module>auth-center</module>
         <module>api-gateway</module>
-        <module>base-parent</module>
         <module>user-center</module>
         <module>store-center</module>
     </modules>
