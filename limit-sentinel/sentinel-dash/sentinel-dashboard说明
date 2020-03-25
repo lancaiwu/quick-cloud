@@ -1,0 +1,8 @@
+sentinel的控制台
+
+下载地址： https://github.com/alibaba/Sentinel/releases
+
+端口:8080
+java -jar sentinel-dashboard-1.7.1.jar 运行
+
+# 可以 --server.port=8084  指定端口

@@ -1,0 +1,21 @@
+server:
+  port: 10001
+spring:
+  application:
+    name: register-center
+  security:
+    basic:
+      enabled: true
+    user:
+      name: lcw
+      password: 123123
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://lcw:123123@127.0.0.1:10001/eureka/
+  instance:
+    ip-address: true
+logging:
+  config: classpath:logback.xml

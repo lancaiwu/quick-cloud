@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.lancaiwu.cloud</groupId>
+    <artifactId>quick-cloud</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <name>quick-cloud</name>
+
+    <description>modules pom</description>
+
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>register-center</module>
+        <module>limit-hystrix</module>
+        <module>limit-sentinel</module>
+        <module>auth-center</module>
+        <module>api-gateway</module>
+        <module>base-parent</module>
+        <module>user-center</module>
+        <module>store-center</module>
+    </modules>
+
+
+</project>

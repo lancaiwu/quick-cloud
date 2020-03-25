@@ -1,0 +1,40 @@
+server:
+  port: 10002
+spring:
+  application:
+    name: user-center-service
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/cloud_user?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  security:
+    user:
+      password: 123123
+      name: lcw
+    # 404
+    #mvc:
+    # 出现错误时, 直接抛出异常(便于异常统一处理，否则捕获不到404)
+    #  throw-exception-if-no-handler-found: true
+    #resources:
+    # 不要为我们工程中的资源文件建立映射
+  #  add-mappings: false
+eureka:
+  client:
+    service-url:
+      defaultZone: http://lcw:123123@127.0.0.1:10001/eureka/
+  instance:
+    appname: user-center-service
+    prefer-ip-address: true
+    # ${spring.cloud.client.ip-address} 而不是 ${spring.cloud.client.ipAddress}
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+#    status-page-url:
+#      http://${spring.cloud.client.ipAddress}:${server.port}/swagger-ui.html
+ribbon:
+  ReadTimeout: 15000
+  ConnectTimeout: 15000
+logging:
+  config: classpath:logback.xml
+feign:
+  hystrix:
+    enabled: true
