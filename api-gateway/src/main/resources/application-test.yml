@@ -1,0 +1,194 @@
+server:
+  port: 11001
+service-url:
+  # 在结合注册中心使用过滤器的时候，我们需要注意的是uri的协议为lb，这样才能启用Gateway的负载均衡功能。
+  user-service: lb://user-center-service # http://localhost:8201
+spring:
+  application:
+    name: api-gateway
+  # redis用于限流
+  redis:
+    host: lancaiwu.cn
+    password: 123456qq.!@#QWEE
+    port: 9736
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          # 开启从注册中心动态创建路由的功能
+          enabled: true
+          # 使用小写服务名,默认是大写
+          lower-case-service-id: true
+      routes:
+        # 路由的ID
+        - id: path_route
+          # uri 代表路由的目标地址。注意：uri地址后面不要加 " / "
+          # 消息必须使用http进行转发，lb代表从注册中心获取服务
+          uri: lb://api-gateway # 可以直接跳转到具体的地址，如果要跳转到其他服务，则填写lb://<服务id>
+          predicates:
+            - Path=/** # 路由规则
+          filters:
+            - StripPrefix=1 # 不填则无法路由到其他服务
+            - AddRequestHeader=X-Request-Foo, Bar
+            - name: Hystrix # 添加熔断
+              args:
+                name: default
+                fallbackUri: forward:/fallback # 熔断跳转地址
+      # 在结合注册中心使用过滤器的时候，我们需要注意的是uri的协议为lb，这样才能启用Gateway的负载均衡功能。
+      # uri 代表路由的目标地址。注意：uri地址后面不要加 " / "
+      # 消息必须使用http进行转发，lb代表从注册中心获取服务
+#      routes:
+#        # After Route Predicate 在指定时间之后的请求会匹配该路由
+#        - id: after_route
+#          uri: ${service-url.user-service}
+#          predicates:
+#            - After=2019-12-29T18:30:00+08:00[Asia/Shanghai]
+#        # Between Route Predicate 在指定时间区间内的请求会匹配该路由
+#        - id: before_route
+#          uri: ${service-url.user-service}
+#          predicates:
+#            - Between=2019-12-29T18:30:00+08:00[Asia/Shanghai], 2019-12-30T18:30:00+08:00[Asia/Shanghai]
+#        # Cookie Route Predicate 带有指定Cookie的请求会匹配该路由
+#        - id: cookie_route
+#          uri: ${service-url.user-service}
+#          predicates:
+#            - Cookie=username,jourwon
+#        # Header Route Predicate 带有指定请求头的请求会匹配该路由
+#        - id: header_route
+#          uri: ${service-url.user-service}
+#          predicates:
+#            - Header=X-Request-Id, \d+
+#        # Host Route Predicate 带有指定Host的请求会匹配该路由
+#        - id: host_route
+#          uri: ${service-url.user-service}
+#          predicates:
+#            - Host=**.jourwon.com
+#        # Method Route Predicate  发送指定方法的请求会匹配该路由
+#        - id: method_route
+#          uri: ${service-url.user-service}
+#          predicates:
+#            - Method=GET
+#        # Path Route Predicate 发送指定路径的请求会匹配该路由
+##        - id: path_route
+##          # uri 代表路由的目标地址。注意：uri地址后面不要加 " / "
+##          # 消息必须使用http进行转发，lb代表从注册中心获取服务
+##          uri: ${service-url.user-service} # 可以直接跳转到具体的地址，如果要跳转到其他服务，则填写lb://<服务id>
+##          predicates:
+##            - Path=/gateway/** # 路由规则
+##          filters:
+##            - StripPrefix=1 # 不填则无法路由到其他服务
+##              # - AddRequestHeader=X-Request-Foo, Bar
+##              #- name: Hystrix # 添加熔断
+##              #args:
+##            #name: fallbackcmd
+##            #fallbackUri: forward:/fallbacks # 熔断跳转地址
+##            - name: RequestRateLimiter
+##              args:
+##                # 每秒允许处理的请求数量
+##                redis-rate-limiter.replenishRate: 1 #  令牌桶每秒填充平均速率
+##                # 每秒最大处理的请求数量
+##                redis-rate-limiter.burstCapacity: 3 # 令牌桶总容量
+##                # 限流策略，对应策略的Bean
+##                key-resolver: "#{@userKeyResolver}"
+#        # Query Route Predicate 带指定查询参数的请求可以匹配该路由
+#        - id: query_route
+#          uri: ${service-url.user-service}/user/getByUsername
+#          predicates:
+#            - Query=username
+#        # RemoteAddr Route Predicate 从指定远程地址发起的请求可以匹配该路由
+#        - id: remoteaddr_route
+#          uri: ${service-url.user-service}
+#          predicates:
+#            - RemoteAddr=192.168.1.1/24
+#        # Weight Route Predicate 使用权重来路由相应请求
+#        - id: weight_high
+#          uri: ${service-url.user-service}
+#          predicates:
+#            - Weight=group1, 8
+#        #  AddRequestParameter GatewayFilter  给请求添加参数的过滤器
+#        - id: add_request_parameter_route
+#          uri: ${service-url.user-service}
+#          filters:
+#            - AddRequestParameter=username, jourwon
+#          predicates:
+#            - Method=GET
+#        # StripPrefix GatewayFilter 对指定数量的路径前缀进行去除的过滤器
+#        - id: strip_prefix_route
+#          uri: ${service-url.user-service}
+#          predicates:
+#            - Path=/user-service/**
+#          filters:
+#            - StripPrefix=2
+#        # PrefixPath GatewayFilter ，会对原有路径进行增加操作的过滤器
+#        - id: prefix_path_route
+#          uri: ${service-url.user-service}
+#          predicates:
+#            - Method=GET
+#          filters:
+#            - PrefixPath=/user
+#        # Hystrix 断路器 过滤器
+#        - id: hystrix_route
+#          uri: lb://api-gateway
+#          predicates:
+#            - Method=GET
+#          filters:
+#            - name: Hystrix
+#              args:
+#                name: fallbackcmd
+#                fallback-uri: forward:/fallback
+#        # RequestRateLimiter GatewayFilter 限流 过滤器
+#        - id: requestratelimiter_route
+#          uri: ${service-url.user-service}
+#          filters:
+#            - name: RequestRateLimiter
+#              args:
+#                # 每秒允许处理的请求数量
+#                redis-rate-limiter.replenishRate: 1
+#                # 每秒最大处理的请求数量
+#                redis-rate-limiter.burstCapacity: 2
+#                # 限流策略，对应策略的Bean
+#                key-resolver: "#{@ipKeyResolver}"
+#          predicates:
+#            - Method=GET
+#        # Retry GatewayFilter 对路由请求进行重试的过滤器，可以根据路由请求返回的HTTP状态码来确定是否进行重试
+#        - id: retry_route
+#          uri: ${service-url.user-service}
+#          predicates:
+#            - Method=GET
+#          filters:
+#            - name: Retry
+#              args:
+#                retries: 1 #需要进行重试的次数
+#                statuses: BAD_GATEWAY #返回哪个状态码需要进行重试，返回状态码为5XX进行重试
+#                backoff:
+#                  firstBackoff: 10ms
+#                  maxBackoff: 50ms
+#                  factor: 2
+#                  basedOnPreviousValue: false
+eureka:
+  client:
+    service-url:
+      defaultZone: http://lcw:123123@127.0.0.1:10001/eureka/
+  instance:
+    appname: api-gateway
+    prefer-ip-address: true
+    # ${spring.cloud.client.ip-address} \u800C\u4E0D\u662F ${spring.cloud.client.ipAddress}
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+#    status-page-url:
+#      http://${spring.cloud.client.ipAddress}:${server.port}/swagger-ui.html
+
+# hystrix 信号量隔离，2秒后自动超时
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 2000
+  shareSecurityContext: true
+logging:
+  config: classpath:logback.xml
+# 打印网关日志信息
+  level:
+    org.springframework.cloud.gateway: debug
