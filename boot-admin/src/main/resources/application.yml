@@ -1,0 +1,19 @@
+server:
+  port: 11002
+spring:
+  application:
+    name: boot-admin
+  security:
+    user:
+      password: 123123
+      name: lcw
+eureka:
+  client:
+    service-url:
+      defaultZone: http://lcw:123123@127.0.0.1:10001/eureka/
+  instance:
+    appname: boot-admin
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+logging:
+  config: classpath:logback.xml

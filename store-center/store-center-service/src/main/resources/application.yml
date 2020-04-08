@@ -31,3 +31,12 @@ logging:
 feign:
   hystrix:
     enabled: true
+# 开放监控端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS

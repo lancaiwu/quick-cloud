@@ -18,6 +18,7 @@
         <module>register-center</module>
         <module>limit-hystrix</module>
         <module>limit-sentinel</module>
+        <module>boot-admin</module>
         <module>auth-center</module>
         <module>api-gateway</module>
         <module>user-center</module>

@@ -31,3 +31,4 @@ build/
 /.idea/**
 .idea/
 /logs/
+/boot-admin/target/
