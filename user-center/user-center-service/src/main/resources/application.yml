@@ -16,6 +16,13 @@ spring:
     user:
       password: 123123
       name: lcw
+  #zipkin-server地址
+  zipkin:
+    base-url: http://www.lancaiwu.com:9411/
+  #接口默认全部采样
+  sleuth:
+    sampler:
+      probability: 1.0
     # 404
     #mvc:
     # 出现错误时, 直接抛出异常(便于异常统一处理，否则捕获不到404)

@@ -11,6 +11,13 @@ spring:
     host: lancaiwu.cn
     password: 123456qq.!@#QWEE
     port: 9736
+  #zipkin-server地址
+  zipkin:
+    base-url: http://www.lancaiwu.com:9411/
+  #接口默认全部采样
+  sleuth:
+    sampler:
+      probability: 1.0
   cloud:
     gateway:
       #discovery:
