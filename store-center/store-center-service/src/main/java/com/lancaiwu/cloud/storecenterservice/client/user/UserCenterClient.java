@@ -1,10 +1,12 @@
 package com.lancaiwu.cloud.storecenterservice.client.user;
 
 import com.lancaiwu.cloud.baseservicecore.pojo.APIResponse;
+import com.lancaiwu.cloud.usercenterclient.req.AddUserReq;
 import com.lancaiwu.cloud.usercenterclient.vo.UserVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -26,4 +28,7 @@ public interface UserCenterClient {
      */
     @PostMapping("/user" + "/getUserById")
     APIResponse<UserVO> getUserById(@RequestParam String id);
+
+    @PostMapping("/user" + "/seataTest")
+    APIResponse<UserVO> getUserById(@RequestBody AddUserReq addUserReq);
 }

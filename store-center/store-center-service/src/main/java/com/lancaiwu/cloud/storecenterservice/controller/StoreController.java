@@ -5,7 +5,10 @@ import com.lancaiwu.cloud.baseservicecore.pojo.APIResponse;
 import com.lancaiwu.cloud.storecenterclient.entity.TStoreEntity;
 import com.lancaiwu.cloud.storecenterclient.req.AddStoreReq;
 import com.lancaiwu.cloud.storecenterclient.vo.StoreVO;
+import com.lancaiwu.cloud.storecenterservice.client.user.UserCenterClient;
 import com.lancaiwu.cloud.storecenterservice.service.StoreService;
+import com.lancaiwu.cloud.usercenterclient.req.AddUserReq;
+//import io.seata.spring.annotation.GlobalTransactional;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
@@ -28,6 +31,9 @@ public class StoreController {
 
     @Autowired
     private StoreService storeService;
+
+    @Autowired
+    private UserCenterClient userCenterClient;
 
     @ApiOperation(value = "查询店铺", notes = "根据店铺id查询店铺", httpMethod = "POST")
     @PostMapping("/getStoreById")
@@ -53,4 +59,21 @@ public class StoreController {
         return new APIResponse<>(storeVO);
     }
 
+    /**
+     * 测试 seata
+     *
+     * @return
+     */
+   // @GlobalTransactional
+    @GetMapping("/seataTest")
+    public APIResponse seataTest(@Validated @RequestBody AddStoreReq addStoreReq) {
+        TStoreEntity tStoreEntity = new TStoreEntity();
+        BeanUtils.copyProperties(addStoreReq, tStoreEntity);
+        tStoreEntity = storeService.addStore(tStoreEntity);
+        AddUserReq addUserReq = new AddUserReq();
+        addUserReq.setUsername(addStoreReq.getStoreName());
+        addUserReq.setPassword(addStoreReq.getStoreDesc());
+        APIResponse apiResponse = userCenterClient.getUserById(addUserReq);
+        return apiResponse;
+    }
 }

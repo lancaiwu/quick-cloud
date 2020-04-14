@@ -6,6 +6,7 @@ import com.lancaiwu.cloud.usercenterclient.entity.TUserEntity;
 import com.lancaiwu.cloud.usercenterclient.req.AddUserReq;
 import com.lancaiwu.cloud.usercenterclient.vo.UserVO;
 import com.lancaiwu.cloud.usercenterservice.service.UserService;
+//import io.seata.spring.annotation.GlobalTransactional;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
@@ -64,6 +65,20 @@ public class UserController {
             e.printStackTrace();
         }
         return new APIResponse<>();
+    }
+
+
+    /**
+     * 测试 seata
+     *
+     * @return
+     */
+    @PostMapping("/seataTest")
+    public APIResponse seataTest(@Validated @RequestBody AddUserReq addUserReq) {
+        TUserEntity tUserEntity = new TUserEntity();
+        BeanUtils.copyProperties(addUserReq, tUserEntity);
+        tUserEntity = userService.addUser(tUserEntity);
+        return new APIResponse<>(tUserEntity);
     }
 
 }
