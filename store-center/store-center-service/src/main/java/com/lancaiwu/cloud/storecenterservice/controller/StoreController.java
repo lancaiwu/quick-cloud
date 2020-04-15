@@ -1,5 +1,6 @@
 package com.lancaiwu.cloud.storecenterservice.controller;
 
+import com.codingapi.txlcn.tc.annotation.LcnTransaction;
 import com.lancaiwu.cloud.baseservicecore.eums.APIResultCodeEnums;
 import com.lancaiwu.cloud.baseservicecore.pojo.APIResponse;
 import com.lancaiwu.cloud.storecenterclient.entity.TStoreEntity;
@@ -13,8 +14,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -64,7 +68,7 @@ public class StoreController {
      *
      * @return
      */
-   // @GlobalTransactional
+    // @GlobalTransactional
     @GetMapping("/seataTest")
     public APIResponse seataTest(@Validated @RequestBody AddStoreReq addStoreReq) {
         TStoreEntity tStoreEntity = new TStoreEntity();
@@ -74,6 +78,33 @@ public class StoreController {
         addUserReq.setUsername(addStoreReq.getStoreName());
         addUserReq.setPassword(addStoreReq.getStoreDesc());
         APIResponse apiResponse = userCenterClient.getUserById(addUserReq);
+        return apiResponse;
+    }
+
+    /**
+     * 测试lcn
+     *
+     * @param addStoreReq
+     * @return
+     */
+    @PostMapping("/lcnTest")
+    @LcnTransaction
+    @Transactional
+    public APIResponse lcnTest(@Validated @RequestBody AddStoreReq addStoreReq) {
+        TStoreEntity tStoreEntity = new TStoreEntity();
+        BeanUtils.copyProperties(addStoreReq, tStoreEntity);
+        storeService.addStore(tStoreEntity);
+        AddUserReq addUserReq = new AddUserReq();
+        addUserReq.setUsername(addStoreReq.getStoreName());
+        addUserReq.setPassword(addStoreReq.getStoreDesc());
+        APIResponse apiResponse = userCenterClient.lcnTest(addUserReq);
+        tStoreEntity.setId(null);
+
+        storeService.addStore(tStoreEntity);
+        List a = null;
+        if (1 == 1) {
+            a.get(1);
+        }
         return apiResponse;
     }
 }

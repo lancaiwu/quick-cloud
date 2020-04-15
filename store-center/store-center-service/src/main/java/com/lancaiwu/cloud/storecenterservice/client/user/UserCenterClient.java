@@ -31,4 +31,7 @@ public interface UserCenterClient {
 
     @PostMapping("/user" + "/seataTest")
     APIResponse<UserVO> getUserById(@RequestBody AddUserReq addUserReq);
+
+    @PostMapping("/user" + "/lcnTest")
+    APIResponse lcnTest(AddUserReq addUserReq);
 }

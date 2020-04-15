@@ -25,4 +25,9 @@ public class UserCenterHystrix implements UserCenterClient {
     public APIResponse<UserVO> getUserById(AddUserReq addUserReq) {
         return new APIResponse<>(APIResultCodeEnums.FAIL);
     }
+
+    @Override
+    public APIResponse lcnTest(AddUserReq addUserReq) {
+        return new APIResponse<>(APIResultCodeEnums.FAIL);
+    }
 }

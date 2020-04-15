@@ -1,5 +1,6 @@
 package com.lancaiwu.cloud.usercenterservice.controller;
 
+import com.codingapi.txlcn.tc.annotation.LcnTransaction;
 import com.lancaiwu.cloud.baseservicecore.eums.APIResultCodeEnums;
 import com.lancaiwu.cloud.baseservicecore.pojo.APIResponse;
 import com.lancaiwu.cloud.usercenterclient.entity.TUserEntity;
@@ -11,6 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -75,6 +77,21 @@ public class UserController {
      */
     @PostMapping("/seataTest")
     public APIResponse seataTest(@Validated @RequestBody AddUserReq addUserReq) {
+        TUserEntity tUserEntity = new TUserEntity();
+        BeanUtils.copyProperties(addUserReq, tUserEntity);
+        tUserEntity = userService.addUser(tUserEntity);
+        return new APIResponse<>(tUserEntity);
+    }
+
+    /**
+     * 测试 lcn -- store是发起方
+     *
+     * @return
+     */
+    @PostMapping("/lcnTest")
+    @LcnTransaction
+    @Transactional
+    public APIResponse lcnTest(@Validated @RequestBody AddUserReq addUserReq) {
         TUserEntity tUserEntity = new TUserEntity();
         BeanUtils.copyProperties(addUserReq, tUserEntity);
         tUserEntity = userService.addUser(tUserEntity);

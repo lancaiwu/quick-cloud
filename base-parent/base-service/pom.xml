@@ -30,11 +30,11 @@
             <scope>runtime</scope>
         </dependency>
         <!-- druid -->
-<!--        <dependency>-->
-<!--            <groupId>com.alibaba</groupId>-->
-<!--            <artifactId>druid</artifactId>-->
-<!--            <version>1.1.22</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.alibaba</groupId>-->
+        <!--            <artifactId>druid</artifactId>-->
+        <!--            <version>1.1.22</version>-->
+        <!--        </dependency>-->
         <!-- druid-spring-boot-starter -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -48,11 +48,11 @@
             <version>3.3.1</version>
         </dependency>
         <!-- log4j -->
-<!--        <dependency>-->
-<!--            <groupId>org.apache.logging.log4j</groupId>-->
-<!--            <artifactId>log4j-core</artifactId>-->
-<!--            <version>2.13.1</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.apache.logging.log4j</groupId>-->
+        <!--            <artifactId>log4j-core</artifactId>-->
+        <!--            <version>2.13.1</version>-->
+        <!--        </dependency>-->
         <!-- springfox-swagger2 -->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -95,10 +95,21 @@
             <artifactId>spring-cloud-starter-zipkin</artifactId>
         </dependency>
         <!--     seata 分布式事务  三选一   zipkine 与seata有冲突   -->
-<!--        <dependency>-->
-<!--            <groupId>com.alibaba.cloud</groupId>-->
-<!--            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.alibaba.cloud</groupId>-->
+        <!--            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>-->
+        <!--        </dependency>-->
+        <!--      lcn 事务分布式  -->
+        <dependency>
+            <groupId>com.codingapi.txlcn</groupId>
+            <artifactId>txlcn-tc</artifactId>
+            <version>${txlcn.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.codingapi.txlcn</groupId>
+            <artifactId>txlcn-txmsg-netty</artifactId>
+            <version>${txlcn.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
