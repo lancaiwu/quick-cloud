@@ -32,3 +32,4 @@ build/
 .idea/
 /logs/
 /boot-admin/target/
+/.txlcn/
