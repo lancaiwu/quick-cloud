@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: test
+    active: loc
 # 开放监控端点
 management:
   endpoints:
