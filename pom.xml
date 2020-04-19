@@ -23,6 +23,7 @@
         <module>api-gateway</module>
         <module>user-center</module>
         <module>store-center</module>
+        <module>transaction-lcn</module>
     </modules>
 
 
